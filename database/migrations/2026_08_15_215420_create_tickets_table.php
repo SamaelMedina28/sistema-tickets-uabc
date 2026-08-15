@@ -27,6 +27,13 @@ return new class extends Migration
             
             $table->timestamps();
         });
+
+        Schema::create('ticket_assignments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ticket_id')->constrained('tickets')->cascadeOnDelete();
+            $table->foreignId('assigned_to')->constrained('users')->cascadeOnDelete();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -34,6 +41,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('ticket_assignments');
         Schema::dropIfExists('tickets');
     }
 };
