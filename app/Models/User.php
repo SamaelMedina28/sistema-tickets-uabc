@@ -27,7 +27,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password','rol','enrollment_number','support_unit_id'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -47,4 +47,19 @@ class User extends Authenticatable implements PasskeyUser
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    // Relaciones
+    public function skills(){
+        return $this->belongsToMany(Skill::class, 'skill_user', 'user_id', 'skill_id');
+    }
+    public function supportUnit(){
+        return $this->belongsTo(SupportUnit::class);
+    }
+
+    public function assignedTickets(){
+        return $this->belongsToMany(Ticket::class, 'ticket_assignments', 'assigned_to', 'ticket_id');
+    }
+    
+
+    
 }
