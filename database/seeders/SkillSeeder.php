@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Skill;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\SupportUnit;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class SkillSeeder extends Seeder
@@ -13,26 +14,43 @@ class SkillSeeder extends Seeder
      */
     public function run(): void
     {
+        // 1. Obtener la primera unidad de soporte
+        $unit = SupportUnit::first();
+
+        // Si no hay ninguna unidad creada previamente, detenemos la ejecución
+        if (!$unit) {
+            return;
+        }
+
+        $user = User::first();
+
         $skills = [
-            ['name' => 'Hardware'],
-            ['name' => 'Software'],
-            ['name' => 'Redes'],
-            ['name' => 'Sistemas Operativos'],
-            ['name' => 'Servidores'],
-            ['name' => 'Cloud'],
-            ['name' => 'Bases de Datos'],
-            ['name' => 'Seguridad'],
-            ['name' => 'Mantenimiento'],
-            ['name' => 'Soporte Técnico'],
-            ['name' => 'Aplicaciones'],
-            ['name' => 'Instalaciones'],
-            ['name' => 'Configuraciones'],
+            'Hardware',
+            'Software',
+            'Redes',
+            'Sistemas Operativos',
+            'Servidores',
+            'Cloud',
+            'Bases de Datos',
+            'Seguridad',
+            'Mantenimiento',
+            'Soporte Técnico',
+            'Aplicaciones',
+            'Instalaciones',
+            'Configuraciones',
         ];
 
-        foreach ($skills as $skill) {
-            $skill = Skill::create($skill);
-            $skill->supportUnits()->sync(1);
-            $skill->users()->sync(1);
+        foreach ($skills as $skillName) {
+            // 2. Pasamos obligatoriamente el support_unit_id
+            $skill = Skill::create([
+                'name' => $skillName,
+                'support_unit_id' => $unit->id,
+            ]);
+
+            // 3. Asociar en la tabla pivote si existe un usuario
+            if ($user) {
+                $skill->users()->sync([$user->id]);
+            }
         }
     }
 }

@@ -20,8 +20,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('support_unit_id')->nullable()->constrained('support_units')->cascadeOnDelete();
-            // De que unidad es el lider
-            $table->foreignId('support_unit_id')->nullable()->constrained('support_units')->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
