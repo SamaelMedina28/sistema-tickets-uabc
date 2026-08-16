@@ -28,4 +28,9 @@ class SupportUnit extends Model
     {
         return $this->hasMany(User::class, 'support_unit_id');
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'support_unit_id');
+    }
 }
