@@ -2,11 +2,6 @@
 
 namespace Database\Seeders;
 
-/* 
-    Cli VANE
-    pos dino
-    crm costureria
-*/
 
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,5 +22,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $this->call([
+            SupportUnitSeeder::class,
+            CategorySeeder::class,
+            SkillSeeder::class
+        ]);           
+
     }
 }

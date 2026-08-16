@@ -13,5 +13,8 @@ class Skill extends Model
         return $this->belongsToMany(User::class, 'skill_user', 'skill_id', 'user_id');
     }
 
-    
+    public function supportUnit()
+    {
+        return $this->belongsTo(SupportUnit::class, 'support_unit_id');
+    }
 }

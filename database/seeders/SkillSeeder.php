@@ -32,6 +32,7 @@ class SkillSeeder extends Seeder
         foreach ($skills as $skill) {
             $skill = Skill::create($skill);
             $skill->supportUnits()->sync(1);
+            $skill->users()->sync(1);
         }
     }
 }
