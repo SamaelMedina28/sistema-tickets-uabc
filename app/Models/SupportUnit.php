@@ -33,4 +33,10 @@ class SupportUnit extends Model
     {
         return $this->hasMany(Category::class, 'support_unit_id');
     }
+
+    public function skills()
+    {
+        return $this->hasMany(Skill::class, 'support_unit_id');
+    }
+
 }
