@@ -42,6 +42,7 @@ trait ProfileValidationRules
             'required',
             'string',
             'email',
+            'ends_with:@uabc.edu.mx',
             'max:255',
             $userId === null
                 ? Rule::unique(User::class)
