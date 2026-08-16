@@ -23,4 +23,9 @@ class SupportUnit extends Model
     {
         return $this->hasMany(User::class, 'support_unit_id')->where('rol', 'miembro');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'support_unit_id');
+    }
 }
