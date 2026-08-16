@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { BookOpen, FolderGit2, LayoutGrid, Users, Building, Tag, Ticket, FileText } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -14,15 +14,57 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import type { NavItem, User } from '@/types';
 
-const mainNavItems: NavItem[] = [
+const navItemsAdmin: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
+        title: 'Usuarios',
+        href: "#",
+        icon: Users,
     },
+    {
+        title: 'Unidades de soporte',
+        href: "#",
+        icon: Building,
+    }
 ];
+
+const navItemsHead: NavItem[] = [
+    {
+        title: 'Miembros',
+        href: "#",
+        icon: Users,
+    },
+    {
+        title: 'Categorias',
+        href: "#",
+        icon: Tag,
+    }
+];
+
+const navItemsMembers: NavItem[] = [
+    {
+        title: 'Mis Tickets',
+        href: "#",
+        icon: Ticket,
+    }
+];
+
+const navItemsService: NavItem[] = [
+    {
+        title: 'Historial de tickets',
+        href: "#",
+        icon: FileText,
+    }
+];
+
+// Mapeo directo relacionando el nombre del rol en la base de datos con su arreglo
+const navByRole: Record<string, NavItem[]> = {
+    admin: navItemsAdmin,
+    lider: navItemsHead,
+    miembro: navItemsMembers,
+    solicitante: navItemsService,
+};
 
 const footerNavItems: NavItem[] = [
     {
@@ -38,6 +80,20 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    // Obtener usuario autenticado de los props de Inertia
+    const { auth } = usePage<{ auth: { user: User } }>().props;
+    const userRole = auth.user?.rol as keyof typeof navByRole;
+
+    let mainNavItems = navByRole[userRole] ?? navItemsService;
+    mainNavItems = [
+        {
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        ...mainNavItems
+    ];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
