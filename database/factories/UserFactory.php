@@ -27,7 +27,7 @@ class UserFactory extends Factory
         return [
             'enrollment_number' => fake()->unique()->numberBetween(10000000, 99999999),
             'name' => fake()->name(),
-            'rol' => 'admin',
+            'rol' => fake()->randomElement(['lider', 'miembro']),
             'support_unit_id' => 1,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test3@example.com',
             'rol' => 'lider',
         ]);
+        User::factory(10)->create();
+        
 
     }
 }
