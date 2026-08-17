@@ -39,4 +39,8 @@ class SupportUnit extends Model
         return $this->hasMany(Skill::class, 'support_unit_id');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'support_unit_id');
+    }
 }

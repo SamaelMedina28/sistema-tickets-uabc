@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSupportUnitRequest;
 use App\Http\Requests\UpdateSupportUnitRequest;
 use App\Models\SupportUnit;
+use Inertia\Inertia;
 
 class SupportUnitController extends Controller
 {
@@ -13,7 +14,10 @@ class SupportUnitController extends Controller
      */
     public function index()
     {
-        //
+        $soportes = SupportUnit::with('tickets')->get();
+        return Inertia::render('support/index', [
+            'soportes' => $soportes
+        ]);
     }
 
     /**

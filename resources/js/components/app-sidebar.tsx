@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid, Users, Building, Tag, Ticket, FileText } from 'lucide-react';
+import SupportUnitController from '@/actions/App/Http/Controllers/SupportUnitController';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -23,8 +24,8 @@ const navItemsAdmin: NavItem[] = [
         icon: Users,
     },
     {
-        title: 'Unidades de soporte',
-        href: "#",
+        title: 'Soportes',
+        href: SupportUnitController.index(),
         icon: Building,
     }
 ];
@@ -52,7 +53,7 @@ const navItemsMembers: NavItem[] = [
 
 const navItemsService: NavItem[] = [
     {
-        title: 'Historial de tickets',
+        title: 'Historial',
         href: "#",
         icon: FileText,
     }
