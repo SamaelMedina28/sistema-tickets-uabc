@@ -49,18 +49,18 @@ export default function Index({ soportes }: { soportes: SupportUnit[] }) {
                 <TableCell>{soporte.location}</TableCell>
                 <TableCell>{soporte.heads.length}</TableCell>
                 <TableCell>{soporte.members.length}</TableCell>
-                <TableCell className="flex items-center justify-center">
-                  <Button variant="ghost" size="icon" className='rounded-full' asChild>
+                <TableCell className="flex items-center justify-center gap-2">
+                  <Button variant="outline" size="icon" asChild>
                     <Link href={show(soporte.id)} prefetch>
                       <Eye size={16} />
                     </Link>
                   </Button>
-                  <Button variant="ghost" size="icon" className='rounded-full' asChild>
+                  <Button variant="outline" size="icon" asChild>
                     <Link href={edit(soporte.id)} prefetch>
                       <Pencil size={16} />
                     </Link>
                   </Button>
-                  <Button variant="ghost" size="icon" className='rounded-full text-red-600 hover:text-red-700 hover:bg-red-600/10' asChild>
+                  <Button variant="destructive" size="icon" asChild>
                     <Link href={destroy(soporte.id)} prefetch>
                       <Trash size={16} />
                     </Link>
