@@ -14,7 +14,7 @@ class SupportUnitController extends Controller
      */
     public function index()
     {
-        $soportes = SupportUnit::with('tickets')->get();
+        $soportes = SupportUnit::with('tickets', 'members', 'heads')->get();
         return Inertia::render('support/index', [
             'soportes' => $soportes
         ]);
