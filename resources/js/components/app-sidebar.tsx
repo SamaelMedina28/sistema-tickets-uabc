@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid, Users, Building, Tag, Ticket, FileText } from 'lucide-react';
 import SupportUnitController from '@/actions/App/Http/Controllers/SupportUnitController';
+import UserController from '@/actions/App/Http/Controllers/UserController';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -20,7 +21,7 @@ import type { NavItem, User } from '@/types';
 const navItemsAdmin: NavItem[] = [
     {
         title: 'Usuarios',
-        href: "#",
+        href: UserController.index(),
         icon: Users,
     },
     {

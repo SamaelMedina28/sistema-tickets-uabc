@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { Pencil, Trash, Eye } from 'lucide-react';
-import { create, edit, index, show, destroy } from '@/actions/App/Http/Controllers/SupportUnitController';
+import { create, edit, index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,16 +12,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { SupportUnit } from '@/types/support';
+import type { User } from '@/types/user';
 
-export default function Index({ soportes }: { soportes: SupportUnit[] }) {
+export default function Index({ usuarios }: { usuarios: User[] }) {
 
   return (
     <>
-      <Head title="Soportes" />
+      <Head title="Usuarios" />
       <div className="flex h-full flex-1 flex-col gap-4 p-4">
         <div className="flex items-center justify-between">
-          <Heading title="Soportes" description="Gestión de las unidades de soporte técnico" />
+          <Heading title="Usuarios" description="Gestión de los usuarios y miembros del soporte tecnico" />
           <Button asChild>
             <Link href={create()} prefetch>
               Nuevo
@@ -35,33 +35,35 @@ export default function Index({ soportes }: { soportes: SupportUnit[] }) {
             <TableRow>
               <TableHead className="w-25">ID</TableHead>
               <TableHead>Nombre</TableHead>
-              <TableHead>Ubicación</TableHead>
-              <TableHead>Líderes</TableHead>
-              <TableHead>Miembros</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Rol</TableHead>
+              <TableHead>Matricula</TableHead>
+              <TableHead>Unidad de soporte</TableHead>
               <TableHead className="flex items-center justify-center">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {soportes.map((soporte) => (
-              <TableRow key={soporte.id}>
-                <TableCell className="font-medium">{soporte.id}</TableCell>
-                <TableCell>{soporte.name}</TableCell>
-                <TableCell>{soporte.location}</TableCell>
-                <TableCell>{soporte.heads.length}</TableCell>
-                <TableCell>{soporte.members.length}</TableCell>
+            {usuarios.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user.id}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}</TableCell>
+                <TableCell>{user.enrollment_number}</TableCell>
+                <TableCell>{user.support_unit.name}</TableCell>
                 <TableCell className="flex items-center justify-center gap-2">
                   <Button variant="outline" size="icon" asChild>
-                    <Link href={show(soporte.id)} prefetch>
+                    <Link href={show(user.id)} prefetch>
                       <Eye size={16} />
                     </Link>
                   </Button>
                   <Button variant="outline" size="icon" asChild>
-                    <Link href={edit(soporte.id)} prefetch>
+                    <Link href={edit(user.id)} prefetch>
                       <Pencil size={16} />
                     </Link>
                   </Button>
                   <Button variant="destructive" size="icon" asChild>
-                    <Link href={destroy(soporte.id)} prefetch>
+                    <Link href={destroy(user.id)} prefetch>
                       <Trash size={16} />
                     </Link>
                   </Button>
