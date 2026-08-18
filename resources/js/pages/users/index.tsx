@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { Pencil, Trash, Eye } from 'lucide-react';
-import { create, edit, index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
+import { edit, index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,9 +12,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import UserFormDialog from '@/components/users/UserFormDialog';
+import type { SupportUnit } from '@/types/support';
 import type { User } from '@/types/user';
 
-export default function Index({ usuarios }: { usuarios: User[] }) {
+export default function Index({ usuarios, soportes }: { usuarios: User[], soportes: SupportUnit[] }) {
 
   return (
     <>
@@ -22,11 +24,7 @@ export default function Index({ usuarios }: { usuarios: User[] }) {
       <div className="flex h-full flex-1 flex-col gap-4 p-4">
         <div className="flex items-center justify-between">
           <Heading title="Usuarios" description="Gestión de los usuarios y miembros del soporte tecnico" />
-          <Button asChild>
-            <Link href={create()} prefetch>
-              Nuevo
-            </Link>
-          </Button>
+          <UserFormDialog soportes={soportes} />
         </div>
         {/* tabla de soportes */}
         <Table>

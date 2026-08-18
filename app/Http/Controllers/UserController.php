@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Models\SupportUnit;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,23 +15,19 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::with('supportUnit')->get();
-        return inertia('users/index', compact('usuarios'));
-    }
+        $soportes = SupportUnit::all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return inertia('users/index', compact('usuarios', 'soportes'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        User::create($request->validated());
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
 
     /**
