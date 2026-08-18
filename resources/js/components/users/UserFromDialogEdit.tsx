@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react';
+import { Form } from '@inertiajs/react';
 import { LoaderCircle, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,26 +24,21 @@ import type { User } from '@/types/user';
 
 type Soporte = { id: number; name: string };
 
-export default function UserFormDialogEdit({ soportes, user }: { soportes: Soporte[], user: User }) {
-  const { data, setData, put, processing, errors } = useForm({
-    enrollment_number: user.enrollment_number,
-    name: user.name,
-    email: user.email,
-    password: '',
-    rol: user.rol != 'admin' ? user.rol : 'lider',
-    support_unit_id: user.support_unit?.id.toString() || '',
-  });
-
-  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    put(update(user.id).url);
-  };
+export default function UserFormDialogEdit({
+  soportes,
+  user,
+}: {
+  soportes: Soporte[];
+  user: User;
+}) {
+  const initialRol = user.rol !== 'admin' ? user.rol : 'lider';
+  const initialSupportUnit = user.support_unit?.id.toString() || '';
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
-            <Pencil size={16} />
+          <Pencil size={16} />
         </Button>
       </DialogTrigger>
 
@@ -55,124 +50,134 @@ export default function UserFormDialogEdit({ soportes, user }: { soportes: Sopor
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={submit} className="space-y-6">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="enrollment_number">Matrícula</Label>
-              <Input
-                id="enrollment_number"
-                name="enrollment_number"
-                type="text"
-                placeholder="2023123"
-                value={data.enrollment_number}
-                onChange={(e) => setData('enrollment_number', e.target.value)}
-                aria-invalid={!!errors.enrollment_number}
-              />
-              {errors.enrollment_number && (
-                <p className="text-sm text-destructive">
-                  {errors.enrollment_number}
-                </p>
-              )}
-            </div>
+        <Form action={update(user.id)} method="put" className="space-y-6">
+          {({ processing, errors }) => (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="enrollment_number">Matrícula</Label>
+                  <Input
+                    id="enrollment_number"
+                    name="enrollment_number"
+                    type="text"
+                    placeholder="2023123"
+                    defaultValue={user.enrollment_number}
+                    aria-invalid={!!errors.enrollment_number}
+                  />
+                  {errors.enrollment_number && (
+                    <p className="text-sm text-destructive">
+                      {errors.enrollment_number}
+                    </p>
+                  )}
+                </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="name">Nombre</Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Juan Pérez"
-                autoComplete="name"
-                value={data.name}
-                onChange={(e) => setData('name', e.target.value)}
-                aria-invalid={!!errors.name}
-              />
-              {errors.name && (
-                <p className="text-sm text-destructive">{errors.name}</p>
-              )}
-            </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Nombre</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Juan Pérez"
+                    autoComplete="name"
+                    defaultValue={user.name}
+                    aria-invalid={!!errors.name}
+                  />
+                  {errors.name && (
+                    <p className="text-sm text-destructive">{errors.name}</p>
+                  )}
+                </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="email">Correo electrónico</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="usuario@ejemplo.com"
-                autoComplete="email"
-                value={data.email}
-                onChange={(e) => setData('email', e.target.value)}
-                aria-invalid={!!errors.email}
-              />
-              {errors.email && (
-                <p className="text-sm text-destructive">{errors.email}</p>
-              )}
-            </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Correo electrónico</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="usuario@ejemplo.com"
+                    autoComplete="email"
+                    defaultValue={user.email}
+                    aria-invalid={!!errors.email}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                  )}
+                </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                autoComplete="new-password"
-                value={data.password}
-                onChange={(e) => setData('password', e.target.value)}
-                aria-invalid={!!errors.password}
-              />
-              {errors.password && (
-                <p className="text-sm text-destructive">{errors.password}</p>
-              )}
-            </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="•••••••• (dejar en blanco para conservar)"
+                    autoComplete="new-password"
+                    aria-invalid={!!errors.password}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-destructive">{errors.password}</p>
+                  )}
+                </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="rol">Rol</Label>
-              <Select name="rol" value={data.rol} onValueChange={(value) => setData('rol', value)}>
-                <SelectTrigger id="rol" className={`w-full ${errors.rol ? 'border-destructive' : ''}`}>
-                  <SelectValue placeholder="Selecciona un rol" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="lider">Líder</SelectItem>
-                  <SelectItem value="miembro">Miembro</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.rol && (
-                <p className="text-sm text-destructive">{errors.rol}</p>
-              )}
-            </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="rol">Rol</Label>
+                  <Select name="rol" defaultValue={initialRol}>
+                    <SelectTrigger
+                      id="rol"
+                      className={`w-full ${errors.rol ? 'border-destructive' : ''}`}
+                    >
+                      <SelectValue placeholder="Selecciona un rol" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="lider">Líder</SelectItem>
+                      <SelectItem value="miembro">Miembro</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.rol && (
+                    <p className="text-sm text-destructive">{errors.rol}</p>
+                  )}
+                </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="support_unit_id">Unidad de soporte</Label>
-              <Select name="support_unit_id" value={data.support_unit_id} onValueChange={(value) => setData('support_unit_id', value)}>
-                <SelectTrigger id="support_unit_id" className={`w-full ${errors.support_unit_id ? 'border-destructive' : ''}`}>
-                  <SelectValue placeholder="Selecciona una unidad" />
-                </SelectTrigger>
-                <SelectContent>
-                  {soportes.map((soporte) => (
-                    <SelectItem key={soporte.id} value={soporte.id.toString()}>
-                      {soporte.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.support_unit_id && (
-                <p className="text-sm text-destructive">
-                  {errors.support_unit_id}
-                </p>
-              )}
-            </div>
-          </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="support_unit_id">Unidad de soporte</Label>
+                  <Select
+                    name="support_unit_id"
+                    defaultValue={initialSupportUnit}
+                    aria-invalid={!!errors.support_unit_id}
+                  >
+                    <SelectTrigger
+                      id="support_unit_id"
+                      className={`w-full ${errors.support_unit_id ? 'border-destructive' : ''
+                        }`}
+                    >
+                      <SelectValue placeholder="Selecciona una unidad" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {soportes.map((soporte) => (
+                        <SelectItem key={soporte.id} value={soporte.id.toString()}>
+                          {soporte.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.support_unit_id && (
+                    <p className="text-sm text-destructive">
+                      {errors.support_unit_id}
+                    </p>
+                  )}
+                </div>
+              </div>
 
-          <DialogFooter>
-            <Button type="submit" disabled={processing}>
-              {processing && (
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Actualizar
-            </Button>
-          </DialogFooter>
-        </form>
+              <DialogFooter>
+                <Button type="submit" disabled={processing}>
+                  {processing && (
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Actualizar
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </Form>
       </DialogContent>
     </Dialog>
   );
