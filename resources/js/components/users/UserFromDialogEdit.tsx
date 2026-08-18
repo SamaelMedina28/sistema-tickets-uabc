@@ -109,7 +109,7 @@ export default function UserFormDialogEdit({
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="•••••••• (dejar en blanco para conservar)"
+                    placeholder="••••••••"
                     autoComplete="new-password"
                     aria-invalid={!!errors.password}
                   />
