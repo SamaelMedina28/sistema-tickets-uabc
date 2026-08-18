@@ -49,11 +49,10 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                     name="enrollment_number"
                     type="text"
                     placeholder="2023123"
+                    aria-invalid={!!errors.enrollment_number}
                   />
                   {errors.enrollment_number && (
-                    <p className="text-sm text-destructive">
-                      {errors.enrollment_number}
-                    </p>
+                    <p className="text-sm text-destructive">{errors.enrollment_number}</p>
                   )}
                 </div>
 
@@ -65,6 +64,7 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                     type="text"
                     placeholder="Juan Pérez"
                     autoComplete="name"
+                    aria-invalid={!!errors.name}
                   />
                   {errors.name && (
                     <p className="text-sm text-destructive">{errors.name}</p>
@@ -79,6 +79,7 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                     type="email"
                     placeholder="usuario@ejemplo.com"
                     autoComplete="email"
+                    aria-invalid={!!errors.email}
                   />
                   {errors.email && (
                     <p className="text-sm text-destructive">{errors.email}</p>
@@ -93,6 +94,7 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                     type="password"
                     placeholder="••••••••"
                     autoComplete="new-password"
+                    aria-invalid={!!errors.password}
                   />
                   {errors.password && (
                     <p className="text-sm text-destructive">{errors.password}</p>
@@ -102,7 +104,9 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                 <div className="grid gap-2">
                   <Label htmlFor="rol">Rol</Label>
                   <Select name="rol">
-                    <SelectTrigger id="rol" className="w-full">
+                    <SelectTrigger id="rol" className={`w-full ${
+                      errors.rol ? 'border-destructive' : ''
+                    }`}>
                       <SelectValue placeholder="Selecciona un rol" />
                     </SelectTrigger>
                     <SelectContent>
@@ -117,8 +121,10 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
 
                 <div className="grid gap-2">
                   <Label htmlFor="support_unit_id">Unidad de soporte</Label>
-                  <Select name="support_unit_id">
-                    <SelectTrigger id="support_unit_id" className="w-full">
+                  <Select name="support_unit_id" aria-invalid={!!errors.support_unit_id}>
+                    <SelectTrigger id="support_unit_id" className={`w-full ${
+                      errors.support_unit_id ? 'border-destructive' : ''
+                    }`}>
                       <SelectValue placeholder="Selecciona una unidad" />
                     </SelectTrigger>
                     <SelectContent>
