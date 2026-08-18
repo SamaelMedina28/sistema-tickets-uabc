@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email', 'ends_with:@uabc.edu.mx'],
             'password' => ['required', 'string', 'min:8'],
             'rol' => ['required', 'in:lider,miembro'],
-            'support_unit_id' => ['required', 'exists support_units,id'],
+            'support_unit_id' => ['required', 'exists:support_units,id'],
         ];
     }
 
