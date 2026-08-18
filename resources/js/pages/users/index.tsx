@@ -12,9 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import UserFormDialog from '@/components/users/UserFormDialog';
+import UserFormDialog from '@/components/users/UserFormDialogCreate';
 import type { SupportUnit } from '@/types/support';
 import type { User } from '@/types/user';
+import UserFormDialogEdit from '@/components/users/UserFromDialogEdit';
 
 export default function Index({ usuarios, soportes }: { usuarios: User[], soportes: SupportUnit[] }) {
 
@@ -55,11 +56,7 @@ export default function Index({ usuarios, soportes }: { usuarios: User[], soport
                       <Eye size={16} />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="icon" asChild>
-                    <Link href={edit(user.id)} prefetch>
-                      <Pencil size={16} />
-                    </Link>
-                  </Button>
+                  <UserFormDialogEdit soportes={soportes} user={user} />
                   <Button variant="destructive" size="icon" asChild>
                     <Link href={destroy(user.id)} prefetch>
                       <Trash size={16} />
