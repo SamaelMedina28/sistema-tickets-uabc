@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::with('supportUnit')->where('id', '<>', auth()->user()->id)->get();
+        $usuarios = User::with('supportUnit')->where('id', '<>', auth('web')->user()->id)->orderBy('id','desc')->get();
         $soportes = SupportUnit::all();
 
         return inertia('users/index', compact('usuarios', 'soportes'));

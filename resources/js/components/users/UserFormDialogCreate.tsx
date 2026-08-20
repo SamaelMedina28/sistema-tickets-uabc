@@ -1,5 +1,6 @@
 import { Form } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
 import { store } from '@/actions/App/Http/Controllers/UserController';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,8 +25,10 @@ import {
 type Soporte = { id: number; name: string };
 
 export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[] }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Nuevo</Button>
       </DialogTrigger>
@@ -38,7 +41,7 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
           </DialogDescription>
         </DialogHeader>
 
-        <Form action={store()} className="space-y-6">
+        <Form action={store()} className="space-y-6" onSuccess={() => setOpen(false)}>
           {({ processing, errors }) => (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -104,9 +107,8 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                 <div className="grid gap-2">
                   <Label htmlFor="rol">Rol</Label>
                   <Select name="rol">
-                    <SelectTrigger id="rol" className={`w-full ${
-                      errors.rol ? 'border-destructive' : ''
-                    }`}>
+                    <SelectTrigger id="rol" className={`w-full ${errors.rol ? 'border-destructive' : ''
+                      }`}>
                       <SelectValue placeholder="Selecciona un rol" />
                     </SelectTrigger>
                     <SelectContent>
@@ -122,9 +124,8 @@ export default function UserFormDialogCreate({ soportes }: { soportes: Soporte[]
                 <div className="grid gap-2">
                   <Label htmlFor="support_unit_id">Unidad de soporte</Label>
                   <Select name="support_unit_id" aria-invalid={!!errors.support_unit_id}>
-                    <SelectTrigger id="support_unit_id" className={`w-full ${
-                      errors.support_unit_id ? 'border-destructive' : ''
-                    }`}>
+                    <SelectTrigger id="support_unit_id" className={`w-full ${errors.support_unit_id ? 'border-destructive' : ''
+                      }`}>
                       <SelectValue placeholder="Selecciona una unidad" />
                     </SelectTrigger>
                     <SelectContent>
