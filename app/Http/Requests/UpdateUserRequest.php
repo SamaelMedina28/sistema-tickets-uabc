@@ -4,32 +4,25 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        $userId = $this->route('user');
-
+        // Obtiene el ID sin importar si la ruta entrega un modelo o un entero
+        $userId = $this->route('usuario');
         return [
             'enrollment_number' => [
                 'required',
                 'string',
                 'max:20',
-                'unique:users,enrollment_number,' . $userId,
+                Rule::unique('users', 'enrollment_number')->ignore($userId),
             ],
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -37,7 +30,7 @@ class UpdateUserRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                'unique:users,email,' . $userId,
+                Rule::unique('users', 'email')->ignore($userId),
                 'ends_with:@uabc.edu.mx',
             ],
             'rol' => ['required', 'in:lider,miembro'],
