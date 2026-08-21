@@ -15,7 +15,6 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
-        // Obtiene el ID sin importar si la ruta entrega un modelo o un entero
         $userId = $this->route('usuario');
         return [
             'enrollment_number' => [
