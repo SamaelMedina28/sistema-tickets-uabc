@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
-import { Pencil, Trash, Eye } from 'lucide-react';
-import { edit, index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
+import { Trash, Eye } from 'lucide-react';
+import { index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,9 +13,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import UserFormDialog from '@/components/users/UserFormDialogCreate';
+import UserFormDialogEdit from '@/components/users/UserFromDialogEdit';
 import type { SupportUnit } from '@/types/support';
 import type { User } from '@/types/user';
-import UserFormDialogEdit from '@/components/users/UserFromDialogEdit';
 
 export default function Index({ usuarios, soportes }: { usuarios: User[], soportes: SupportUnit[] }) {
 
