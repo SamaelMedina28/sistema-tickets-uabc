@@ -1,5 +1,6 @@
 import { Form } from '@inertiajs/react';
 import { LoaderCircle, Pencil } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -31,11 +32,13 @@ export default function UserFormDialogEdit({
   soportes: Soporte[];
   user: User;
 }) {
+  const [open, setOpen] = useState(false);
+
   const initialRol = user.rol !== 'admin' ? user.rol : 'lider';
   const initialSupportUnit = user.support_unit?.id.toString() || '';
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
           <Pencil size={16} />
@@ -50,7 +53,7 @@ export default function UserFormDialogEdit({
           </DialogDescription>
         </DialogHeader>
 
-        <Form action={update(user.id)} method="put" className="space-y-6">
+        <Form action={update(user.id)} method="put" className="space-y-6" onSuccess={() => setOpen(false)}>
           {({ processing, errors }) => (
             <>
               <div className="grid gap-4 sm:grid-cols-2">

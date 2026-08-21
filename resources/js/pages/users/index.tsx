@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
-import { Trash, Eye } from 'lucide-react';
-import { index, show, destroy } from '@/actions/App/Http/Controllers/UserController';
+import { Trash } from 'lucide-react';
+import { index, destroy } from '@/actions/App/Http/Controllers/UserController';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import UserDialogShow from '@/components/users/UserDialogShow';
 import UserFormDialog from '@/components/users/UserFormDialogCreate';
 import UserFormDialogEdit from '@/components/users/UserFromDialogEdit';
 import type { SupportUnit } from '@/types/support';
@@ -51,11 +52,7 @@ export default function Index({ usuarios, soportes }: { usuarios: User[], soport
                 <TableCell>{user.enrollment_number}</TableCell>
                 <TableCell>{user.support_unit.name}</TableCell>
                 <TableCell className="flex items-center justify-center gap-2">
-                  <Button variant="outline" size="icon" asChild>
-                    <Link href={show(user.id)} prefetch>
-                      <Eye size={16} />
-                    </Link>
-                  </Button>
+                  <UserDialogShow soportes={soportes} user={user} />
                   <UserFormDialogEdit soportes={soportes} user={user} />
                   <Button variant="destructive" size="icon" asChild>
                     <Link href={destroy(user.id)} prefetch>
